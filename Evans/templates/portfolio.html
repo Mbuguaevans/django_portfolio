@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}{% static '' %}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Portfolio - Evans Kamau Portfolio</title>
+  <meta name="description" content="Portfolio projects by Evans Kamau - Graphic Design, WordPress, SEO, and Web Development">
+  <meta name="keywords" content="Graphic Design, WordPress Development, SEO, Web Development, Portfolio Projects">
+
+  <!-- Favicons -->
+  <link href="{% static '' %}assets/img/favicon.png" rel="icon">
+  <link href="{% static '' %}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static '' %}assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static '' %}assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="{% static '' %}assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="{% static '' %}assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="{% static '' %}assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static '' %}assets/css/main.css" rel="stylesheet">
+
+  <!-- Updated Portfolio Grid & Image Styles -->
+  <style>
+    /* constrain content so gallery doesn't stretch full browser width */
+    .portfolio .container {
+      max-width: 1080px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* Use CSS Grid for a reliable 1 / 2 / 3 column layout,
+       and neutralize Bootstrap column sizing by forcing .portfolio-item to full width in the grid */
+    .isotope-container {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* 2 columns for small tablets */
+    @media (min-width: 576px) {
+      .isotope-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 3 columns on desktop and up */
+    @media (min-width: 992px) {
+      .isotope-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Force each item to fill a grid cell and ignore bootstrap col width */
+    .isotope-container .portfolio-item {
+      width: 100% !important;
+      display: block;
+    }
+
+    /* Card wrapper */
+    .portfolio-content {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      transition: transform 0.18s ease;
+      background: #0a0a0a; /* keep dark background to match your site's style */
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+
+    /* Constrain image height and use object-fit so images are visually uniform */
+    .portfolio-content img {
+      display: block;
+      width: 100%;
+      height: 180px;      /* compact tile height */
+      object-fit: cover;
+      object-position: center;
+      background: #fff;   /* visible if image doesn't load */
+    }
+
+    /* slightly taller on very large screens */
+    @media (min-width: 1400px) {
+      .portfolio-content img {
+        height: 220px;
+      }
+    }
+
+    /* on very small screens make images shorter */
+    @media (max-width: 575.98px) {
+      .portfolio-content img {
+        height: 140px;
+      }
+    }
+
+    /* Hover overlay for info */
+    .portfolio-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.15));
+      color: #fff;
+      padding: 10px 12px;
+      transform: translateY(100%);
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .portfolio-content:hover .portfolio-info,
+    .portfolio-content:focus-within .portfolio-info {
+      transform: translateY(0);
+    }
+
+    .portfolio-info h4, .portfolio-info p {
+      margin: 0;
+      line-height: 1;
+    }
+
+    /* Non-clickable details icon for visual parity */
+    .details-icon {
+      color: rgba(255,255,255,0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      cursor: default;
+      margin-left: 8px;
+      text-decoration: none;
+    }
+
+    .preview-link {
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      text-decoration: none;
+    }
+
+    /* keep filter spacing comfortable */
+    .portfolio-filters { margin-bottom: 18px; text-align: center; }
+    .portfolio-filters li { display: inline-block; margin: 0 8px; cursor: pointer; }
+    .filter-active { font-weight: 700; color: #12d27a !important; } /* green active filter */
+  </style>
+</head>
+
+<body class="portfolio-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <h1 class="sitename">Evans Kamau</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+           <li><a href="{% url 'index' %} "class="active">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'resume' %}">Resume</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
+          <li><a href="{% url 'portfolio' %}">Portfolio</a></li>
+          <!-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Dropdown 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#">Deep Dropdown 1</a></li>
+                  <li><a href="#">Deep Dropdown 2</a></li>
+                  <li><a href="#">Deep Dropdown 3</a></li>
+                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Deep Dropdown 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 3</a></li>
+              <li><a href="#">Dropdown 4</a></li>
+            </ul>
+          </li> -->
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div class="heading">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-8">
+              <h1>Portfolio</h1>
+              <p class="mb-0">Showcasing my work in graphic design, WordPress development, SEO optimization, and custom website projects. Each project demonstrates creativity, technical expertise, and results-driven solutions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Portfolio</li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+
+      <div class="container">
+
+        <div class="isotope-layout" data-default-filter="*" data-layout="grid" data-sort="original-order">
+
+          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+            <li data-filter="*" class="filter-active" role="button" tabindex="0">All</li>
+            <li data-filter=".filter-graphic-design" role="button" tabindex="0">Graphic Design</li>
+            <li data-filter=".filter-wordpress" role="button" tabindex="0">WordPress</li>
+            <li data-filter=".filter-seo" role="button" tabindex="0">SEO</li>
+            <li data-filter=".filter-website" role="button" tabindex="0">Website</li>
+          </ul><!-- End Portfolio Filters -->
+
+          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+            <!-- ROW 1 - First 3 Graphics -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g1.jpeg"
+                  alt="Brand Identity Design"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Brand Identity Design</h4>
+                    <p>Logo & Visual Identity</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g1.jpeg" title="Brand Identity Design" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Brand Identity image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g2.jpeg"
+                  alt="Social Media Graphics"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Social Media Campaign</h4>
+                    <p>Graphics & Marketing Materials</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g2.jpeg" title="Social Media Graphics" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Social Media Campaign image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g3.jpeg"
+                  alt="Logo Design"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Company Logo Design</h4>
+                    <p>Brand Identity</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g3.jpeg" title="Logo Design" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Company Logo image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 2 - Next 3 Graphics -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g4.jpeg"
+                  alt="Poster Design"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Event Poster</h4>
+                    <p>Marketing Material</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g4.jpeg" title="Poster Design" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Event Poster image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g5.jpeg"
+                  alt="Flyer Design"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Flyer Design</h4>
+                    <p>Promotional Material</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g5.jpeg" title="Flyer Design" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Flyer Design image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-graphic-design">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/g6.jpeg"
+                  alt="Brochure Design"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Brochure Design</h4>
+                    <p>Marketing Collateral</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="{% static '' %}assets/img/g6.jpeg" title="Brochure Design" data-gallery="portfolio-gallery-graphic" class="glightbox preview-link" aria-label="Open Brochure Design image preview"><i class="bi bi-zoom-in"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- WordPress Project with Embedded Site -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-wordpress filter-website">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/1.jpg"
+                  alt="WordPress Site"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>WordPress Business Site</h4>
+                    <p>Custom Theme & Development</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="#wordpress-modal-1" data-bs-toggle="modal" class="preview-link" aria-label="Open WordPress Business Site preview"><i class="bi bi-eye"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <!-- WordPress Project 2 -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-wordpress filter-website">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/wordpress-2.jpeg"
+                  alt="WordPress Site 2"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>E-Commerce WordPress</h4>
+                    <p>WooCommerce Integration</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="#wordpress-modal-2" data-bs-toggle="modal" class="preview-link" aria-label="Open E-Commerce WordPress preview"><i class="bi bi-eye"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <!-- SEO Project with Embedded Results -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-seo">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/seo-1.jpeg"
+                  alt="SEO Results"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>SEO Campaign Results</h4>
+                    <p>Traffic Growth & Rankings</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="#seo-modal-1" data-bs-toggle="modal" class="preview-link" aria-label="Open SEO Campaign results preview"><i class="bi bi-eye"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <!-- Email Marketing Campaign -->
+            <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-seo">
+              <div class="portfolio-content h-100">
+                <img
+                  src="{% static '' %}assets/img/email-marketing-1.jpeg"
+                  alt="Email Marketing"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/placeholder.png';"
+                >
+                <div class="portfolio-info">
+                  <div>
+                    <h4>Email Marketing Campaign</h4>
+                    <p>Newsletter & Automation</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <a href="#email-modal-1" data-bs-toggle="modal" class="preview-link" aria-label="Open Email Marketing preview"><i class="bi bi-eye"></i></a>
+                    <span class="details-icon" title="No details page" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <!-- ADD MORE PROJECTS BELOW THIS LINE -->
+
+          </div><!-- End Portfolio Container -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Section -->
+
+  </main>
+
+  <!-- MODALS FOR EMBEDDED CONTENT -->
+
+  <!-- WordPress Modal 1 -->
+  <div class="modal fade" id="wordpress-modal-1" tabindex="-1" aria-labelledby="wordpressModal1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="wordpressModal1">WordPress Business Site</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe src="https://kamaumbugua2025-gymnl.wordpress.com/2025/11/13/find-the-perfect-pool-tables-in-kenya-masterstroke-billiards/" width="100%" height="600" frameborder="0" loading="lazy" title="Embedded WordPress site"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WordPress Modal 2 -->
+  <div class="modal fade" id="wordpress-modal-2" tabindex="-1" aria-labelledby="wordpressModal2" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="wordpressModal2">E-Commerce WordPress</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe src="https://kamaumbugua2025-gymnl.wordpress.com/2025/11/13/find-the-perfect-pool-tables-in-kenya-masterstroke-billiards/" width="100%" height="600" frameborder="0" loading="lazy" title="Embedded E-Commerce WordPress"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO Results Modal -->
+  <div class="modal fade" id="seo-modal-1" tabindex="-1" aria-labelledby="seoModal1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="seoModal1">SEO Campaign Results</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe src="https://YOUR-SEO-DASHBOARD.com" width="100%" height="600" frameborder="0" loading="lazy" title="SEO Dashboard"></iframe>
+          <img src="{% static '' %}assets/img/seo-results-full.jpeg" class="img-fluid" alt="SEO Results" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Marketing Modal -->
+  <div class="modal fade" id="email-modal-1" tabindex="-1" aria-labelledby="emailModal1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="emailModal1">Email Marketing Campaign</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe src="https://YOUR-EMAIL-CAMPAIGN.com" width="100%" height="600" frameborder="0" loading="lazy" title="Email Campaign"></iframe>
+          <img src="{% static '' %}assets/img/email-campaign-1.jpeg" class="img-fluid" alt="Email Campaign" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container">
+      <h3 class="sitename">Evans Kamau</h3>
+      <p>Computer Science Graduate passionate about leveraging technical skills to develop impactful software solutions.</p>
+      <div class="social-links d-flex justify-content-center">
+        <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://github.com/mbuguaevans" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="container">
+        <div class="copyright">
+          <span>Copyright</span> <strong class="px-1 sitename">Evans Kamau</strong> <span>All Rights Reserved</span>
+        </div>
+        <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static '' %}assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static '' %}assets/vendor/php-email-form/validate.js"></script>
+  <script src="{% static '' %}assets/vendor/aos/aos.js"></script>
+  <script src="{% static '' %}assets/vendor/typed.js/typed.umd.js"></script>
+  <script src="{% static '' %}assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="{% static '' %}assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="{% static '' %}assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="{% static '' %}assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="{% static '' %}assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="{% static '' %}assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static '' %}assets/js/main.js"></script>
+
+  <!-- Updated Isotope initialization (filtering + layout) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // allow the grid CSS to control columns; Isotope is used for filtering & layout recalculation
+      setTimeout(function() {
+        var elem = document.querySelector('.isotope-container');
+        if (elem && typeof Isotope !== 'undefined') {
+          var iso = new Isotope(elem, {
+            itemSelector: '.portfolio-item',
+            layoutMode: 'masonry', // masonry works well with variable height items; grid controls columns
+            percentPosition: true,
+            masonry: {
+              columnWidth: elem.querySelector('.portfolio-item') || undefined,
+              gutter: 24
+            }
+          });
+
+          imagesLoaded(elem, function() {
+            iso.layout();
+          });
+
+          // filter buttons - use Isotope filter so items hide/show nicely
+          document.querySelectorAll('.portfolio-filters li').forEach(function(filter) {
+            filter.addEventListener('click', function() {
+              var filterVal = this.getAttribute('data-filter') || '*';
+              iso.arrange({ filter: filterVal });
+              document.querySelectorAll('.portfolio-filters li').forEach(function(f){ f.classList.remove('filter-active'); });
+              this.classList.add('filter-active');
+
+              // relayout slightly after arrange to avoid visual glitches
+              setTimeout(function() { iso.layout(); }, 120);
+            });
+          });
+        }
+      }, 200);
+    });
+  </script>
+
+</body>
+
+</html>
